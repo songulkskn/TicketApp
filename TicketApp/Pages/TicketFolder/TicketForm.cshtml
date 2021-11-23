@@ -1,0 +1,31 @@
+﻿@page
+@model TicketApp.Pages.TicketFolder.TicketFormModel
+@{
+}
+
+<form method="post">
+
+    <label>Subject</label>
+    <input asp-for="TicketInput.Subject" />
+    <span></span>
+    <br />
+
+    <label>Descirption</label>
+    <input asp-for="TicketInput.Description" />
+    <br />
+
+    <label>Customer</label>
+    <select>
+      @foreach(var item in Model.CustomerInput)
+       { 
+        <option value="@item.Id" asp-for="item.Name">item.Name</option>
+       }
+    </select>
+    <br />
+
+    <div>
+        <button type="submit">SAVE</button>
+
+    </div>
+
+</form>

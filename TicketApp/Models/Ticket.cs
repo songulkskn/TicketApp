@@ -26,18 +26,11 @@ namespace TicketApp.Models
 
     }
     public class Ticket
-    {
-        public Ticket(string subject, string descsiption, StatusType status)
-        {
-            Subject = subject;
-            Descsiption = descsiption;
-            Status = status;
-        }
-
+    { 
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public string Subject { get; private set; }
-        public string Descsiption { get; private set; }
-        public StatusType Status { get; private set; }
+        public string Subject { get;  set; }
+        public string Description{ get;  set; }
+        public StatusType Status { get; set; }
         public LevelofDifficulty Difficulty { get; set; }
         public int Priority { get; set; }
         public DateTime OpenDate { get; set; }

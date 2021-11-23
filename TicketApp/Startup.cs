@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TicketApp.Repository;
+using TicketApp.Services;
 
 namespace TicketApp
 {
@@ -29,6 +30,7 @@ namespace TicketApp
             services.AddScoped<CustomerRepository>();
             services.AddScoped<EmployeeRepository>();
             services.AddScoped<ManagerRepository>();
+            services.AddTransient<TicketService>();
 
         }
 
