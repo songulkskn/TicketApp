@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TicketApp.Repository;
 
 namespace TicketApp
 {
@@ -24,7 +25,11 @@ namespace TicketApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-         
+            services.AddScoped<TicketRepository>();
+            services.AddScoped<CustomerRepository>();
+            services.AddScoped<EmployeeRepository>();
+            services.AddScoped<ManagerRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

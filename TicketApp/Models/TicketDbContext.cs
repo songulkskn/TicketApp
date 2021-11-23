@@ -8,12 +8,10 @@ namespace TicketApp.Models
 {
     public class TicketDbContext:DbContext
     {
-
         public TicketDbContext()
         {
 
         }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=.;Database=TicketAppDB;uid=sa;pwd=1234");
