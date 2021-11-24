@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using TicketApp.Models;
 using TicketApp.Repository;
+using TicketApp.Services;
 
 namespace TicketApp.Pages.TicketFolder
 {
@@ -13,22 +15,49 @@ namespace TicketApp.Pages.TicketFolder
     {
         private readonly CustomerRepository cRepo;
         private readonly TicketRepository tRepo;
+        private readonly TicketService ticketservice;
+        private readonly NetPipeStyleUriParser smtpmail;
 
-        public TicketFormModel(CustomerRepository cRepo, TicketRepository tRepo)
+
+        public TicketFormModel(CustomerRepository cRepo, TicketRepository tRepo, TicketService ticketservice, NetPipeStyleUriParser smtpmail)
         {
             this.cRepo = cRepo;
             this.tRepo = tRepo;
+            this.ticketservice = ticketservice;
+            this.smtpmail = smtpmail;
         }
         [BindProperty]
         public Ticket TicketInput { get; set; }
 
-        [BindProperty]
-        public List<Customer> CustomerInput { get; set; } = new List<Customer>();
-
+        public List<SelectListItem> SelectListItems = new List<SelectListItem>();
         public void OnGet()
         {
-           var  customer = cRepo.List();
+            var Customers = cRepo.List();
+
+            SelectListItems = Customers.Select(a =>
+              new SelectListItem
+              {
+                  Value = a.Id,
+                  Text = a.Name
+              }).ToList();
+        }
+        public void OnPostSave()
+        {
+            if (ModelState.IsValid)
+            {
+
+                TicketInput.OpenDate = DateTime.Now;
+                TicketInput.Status = StatusType.Open;
+                ticketservice.CreateTicket(TicketInput);
+
+                tRepo.Save();
+                smtpmail.SendEmail(args.FromEmailAddress, args.ToEmailAddress, args.Message, args.Subject);
+
+            }
 
         }
+
+
+
     }
 }

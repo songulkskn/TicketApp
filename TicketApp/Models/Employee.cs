@@ -11,6 +11,8 @@ namespace TicketApp.Models
         public string Name { get; set; }
         public string Surname { get; set; }
         public string EMail { get; set; }
+        public int Hours { get; set; }
+        public List<Ticket> Ticket { get; set; }
         public  Manager Manager { get; set; }
         public  string ManagerId { get; set; }
 

@@ -22,8 +22,17 @@ namespace TicketApp.Models
         Medium=3,
         Hard=4,
         VeryHard=5
-       
 
+    }
+
+    public enum LevelofPriority
+    {
+        First=1,
+        Second=2,
+        Third=3,
+        Forth=4,
+        Fifth=5
+        
     }
     public class Ticket
     { 
@@ -32,7 +41,7 @@ namespace TicketApp.Models
         public string Description{ get;  set; }
         public StatusType Status { get; set; }
         public LevelofDifficulty Difficulty { get; set; }
-        public int Priority { get; set; }
+        public LevelofPriority Priority { get; set; }
         public DateTime OpenDate { get; set; }
         public DateTime AssigneDate { get; set; }
         public DateTime ReviweDate { get; set; }

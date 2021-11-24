@@ -43,5 +43,9 @@ namespace TicketApp.Repository
             _db.SaveChanges();
 
         }
+        public void Save()
+        {
+            _db.SaveChanges();
+        }
     }
 }

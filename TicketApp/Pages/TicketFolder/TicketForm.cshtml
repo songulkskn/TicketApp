@@ -15,17 +15,8 @@
     <br />
 
     <label>Customer</label>
-    <select>
-      @foreach(var item in Model.CustomerInput)
-       { 
-        <option value="@item.Id" asp-for="item.Name">item.Name</option>
-       }
+    <select asp-for="TicketInput.CustomerId" asp-items="Model.SelectListItems">
     </select>
-    <br />
-
-    <div>
-        <button type="submit">SAVE</button>
-
-    </div>
+    <input type="submit" value="Save" asp-page-handler="Save" />
 
 </form>
