@@ -1,0 +1,37 @@
+﻿@page
+@model TicketApp.Pages.TicketFolder.WaitAssigmentModel
+@{
+}
+
+
+
+
+<table border="4" width="80%">
+    <thead>
+        <tr>
+            <th>Konu</th>
+            <th>Açıklama</th>
+            <th>Zorluk Derecesi</th>
+            <th>Öncelik</th>
+            <th>Elaman</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @for (int i = 0; i < Model.TicketInputs.Count; i++)
+        { 
+            <tr>
+                <td>@Model.TicketInputs[i].Subject</td>
+                <td>@Model.TicketInputs[i].Description </td>
+                <td>@Model.TicketInputs[i].Difficulty</td>
+                <td>@Model.TicketInputs[i].Priority</td>
+
+            </tr>
+
+        }
+
+
+
+
+    </tbody>
+</table>

@@ -16,7 +16,7 @@ namespace TicketApp.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=.;Database=TicketAppDB;uid=sa;pwd=1234");
+            optionsBuilder.UseSqlServer("Server=DESKTOP-65TIJ9C;Database=TicketAppDB;Trusted_Connection=True;MultipleActiveResultSets=true");
 
             base.OnConfiguring(optionsBuilder);
         }

@@ -23,7 +23,6 @@ namespace TicketApp.Pages.TicketFolder
         [BindProperty]
         public string ID { get; set; }
 
-
         [BindProperty]
         public string CustomerName { get; set; }
         [BindProperty]
@@ -59,7 +58,7 @@ namespace TicketApp.Pages.TicketFolder
             CustomerID = TicketInput.CustomerId.ToString();
         }
        
-        public void OnPostSetPrio( string id ,LevelofPriority prio)
+        public void OnPostSetPrio()
         {
            
             TicketInput = tRepo.Find(ID);
@@ -70,7 +69,7 @@ namespace TicketApp.Pages.TicketFolder
 
         public void OnPostSetDiff()
         {
-        
+       
             TicketInput = tRepo.Find(ID);
 
             ticketService.SetDifficulty(TicketInput, Difficulty);
@@ -78,7 +77,23 @@ namespace TicketApp.Pages.TicketFolder
            
         }
 
-       
+        public void OnPostSave(string id)
+        {
+            
+            if (ModelState.IsValid)
+            {
+               
+                TicketInput = tRepo.Find(id);
+                Console.WriteLine("Batuhan "+ id);
+                TicketInput.Status = StatusType.ReadyForAssigned;
+                tRepo.Update(TicketInput);
+
+
+            }
+
+        }
+
+
 
     }
 }

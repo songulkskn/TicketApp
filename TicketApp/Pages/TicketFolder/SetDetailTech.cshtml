@@ -26,33 +26,30 @@
 </table>
 
 <form method="post">
-
+    <br />
     <p>please select the difficulty.</p>
     @Html.HiddenFor(x => x.ID, ViewData["Id"])
-    @foreach (int item in Enum.GetValues(typeof(Models.LevelofDifficulty)))
+    @foreach (var item in Enum.GetValues(typeof(Models.LevelofDifficulty)))
     {
-
-
-        @Html.RadioButtonFor(x => x.Difficulty, item)@item.ToString()
+        @Html.RadioButtonFor(x => x.Difficulty, item)@item.ToString()<br />
 
     }
+    <br />
     <button type="submit" asp-page-handler="SetDiff"> SET</button>
     <br />
 
     <p>please select the Priority.</p>
+
     @foreach (var item in Enum.GetValues(typeof(Models.LevelofPriority)))
     {
-        @Html.RadioButtonFor(x => x.Priority, item)@item.ToString()
-
-
-
+        @Html.RadioButtonFor(x => x.Priority, item)@item.ToString()<br />
     }
     <br />
-
     <button type="submit" asp-page-handler="SetPrio"> SET</button>
-
-    <div margin="center">
-        <button type="submit" asp-page="./WaitAssigment"> Waitting Assignment Ticket</button>
+    <br />
+    <div style="margin:auto">
+        <a  asp-route-id="@Model.TicketInput.Id"  asp-page-handler="Save">Waitting</a>
+     
     </div>
 
 </form>
