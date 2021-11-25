@@ -1,0 +1,59 @@
+﻿@page
+@model TicketApp.Pages.TicketFolder.SetDetailTechModel
+@{
+}
+
+
+<table border="4" width="80%">
+    <thead>
+        <tr>
+            <th>Konu</th>
+            <th>Açıklama</th>
+            <th>Tarih</th>
+            <th>Customer</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr>
+            <td>@Model.TicketInput.Subject</td>
+            <td>@Model.TicketInput.Description </td>
+            <td>@Model.TicketInput.OpenDate.Date </td>
+            @*  <td>@Model.TicketInput.Customer.Name</td>  *@
+
+        </tr>
+    </tbody>
+</table>
+
+<form method="post">
+
+    <p>please select the difficulty.</p>
+    @Html.HiddenFor(x => x.ID, ViewData["Id"])
+    @foreach (int item in Enum.GetValues(typeof(Models.LevelofDifficulty)))
+    {
+
+
+        @Html.RadioButtonFor(x => x.Difficulty, item)@item.ToString()
+
+    }
+    <button type="submit" asp-page-handler="SetDiff"> SET</button>
+    <br />
+
+    <p>please select the Priority.</p>
+    @foreach (var item in Enum.GetValues(typeof(Models.LevelofPriority)))
+    {
+        @Html.RadioButtonFor(x => x.Priority, item)@item.ToString()
+
+
+
+    }
+    <br />
+
+    <button type="submit" asp-page-handler="SetPrio"> SET</button>
+
+    <div margin="center">
+        <button type="submit" asp-page="./WaitAssigment"> Waitting Assignment Ticket</button>
+    </div>
+
+</form>
+

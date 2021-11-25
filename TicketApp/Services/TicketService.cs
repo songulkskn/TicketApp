@@ -107,9 +107,10 @@ namespace TicketApp.Services
             ticket.Priority = priority;
             _ticketRepository.Update(ticket);
                 
-        } 
+        }
         public void SetDifficulty(Ticket ticket ,LevelofDifficulty difficulty)
         {
+            
             ticket.Difficulty = difficulty;
             _ticketRepository.Update(ticket);
         }

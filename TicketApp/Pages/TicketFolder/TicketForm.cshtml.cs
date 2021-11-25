@@ -16,15 +16,15 @@ namespace TicketApp.Pages.TicketFolder
         private readonly CustomerRepository cRepo;
         private readonly TicketRepository tRepo;
         private readonly TicketService ticketservice;
-        private readonly NetPipeStyleUriParser smtpmail;
+     
 
 
-        public TicketFormModel(CustomerRepository cRepo, TicketRepository tRepo, TicketService ticketservice, NetPipeStyleUriParser smtpmail)
+        public TicketFormModel(CustomerRepository cRepo, TicketRepository tRepo, TicketService ticketservice)
         {
             this.cRepo = cRepo;
             this.tRepo = tRepo;
             this.ticketservice = ticketservice;
-            this.smtpmail = smtpmail;
+            
         }
         [BindProperty]
         public Ticket TicketInput { get; set; }
@@ -51,7 +51,7 @@ namespace TicketApp.Pages.TicketFolder
                 ticketservice.CreateTicket(TicketInput);
 
                 tRepo.Save();
-                smtpmail.SendEmail(args.FromEmailAddress, args.ToEmailAddress, args.Message, args.Subject);
+               
 
             }
 
