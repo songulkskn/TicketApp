@@ -84,7 +84,6 @@ namespace TicketApp.Pages.TicketFolder
             {
                
                 TicketInput = tRepo.Find(id);
-                Console.WriteLine("Batuhan "+ id);
                 TicketInput.Status = StatusType.ReadyForAssigned;
                 tRepo.Update(TicketInput);
 
