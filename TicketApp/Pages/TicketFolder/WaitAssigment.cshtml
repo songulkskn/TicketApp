@@ -4,8 +4,6 @@
 }
 
 
-
-
 <table border="4" width="80%">
     <thead>
         <tr>
@@ -18,23 +16,24 @@
     </thead>
     <tbody>
 
-       @for (int i = 0; i < Model.TicketInput.Count; i++)
-       { 
-            <tr>
-                <td>@Model.TicketInput[i].Subject</td>
-                <td>@Model.TicketInput[i].Description </td>
-                <td>@Model.TicketInput[i].Difficulty</td>
-                <td>@Model.TicketInput[i].Priority</td>
-                <td>
-                    <select asp-for="TicketInput[i].EmployeeId" asp-items="Model.SelectListItems">
-                    </select>
-                </td>
-            </tr>
+        @for (int i = 0; i < Model.TicketInput.Count; i++)
+        {
+        <tr>
+            <td>@Model.TicketInput[i].Subject</td>
+            <td>@Model.TicketInput[i].Description </td>
+            <td>@Model.TicketInput[i].Difficulty</td>
+            <td>@Model.TicketInput[i].Priority</td>
 
-       }
+            <form method="post">
+            <td>
+                <select asp-for="TicketInput[i].EmployeeId" asp-items="Model.SelectListItems">
+                </select>
+            </td>
+            </form>
+        </tr>
 
-
-
+        }
 
     </tbody>
 </table>
+<input type="submit" value="Save" asp-page-handler="Save" />

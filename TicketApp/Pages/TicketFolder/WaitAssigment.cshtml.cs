@@ -56,6 +56,17 @@ namespace TicketApp.Pages.TicketFolder
                   Text = a.Name
               }).ToList();
         }
+
+        public void OnPostSave()
+        {
+            // date assigned alýnacak 
+            // status güncellenecek
+            //set hour yapýlacak empp servicede 
+            //emp iþ atanacaka
+            // ticket güncellenecek
+
+
+        }
     }
     }
 

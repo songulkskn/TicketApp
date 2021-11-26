@@ -116,7 +116,36 @@ namespace TicketApp.Services
         }
 
 
-      
+
+        public void SetHours (Employee employee, Ticket ticket)
+        {
+
+            int WorkHour;
+
+            if ((int)ticket.Priority == 5)
+            {
+                WorkHour = 5 * 8;
+            } 
+            if ((int)ticket.Priority == 4)
+            {
+                WorkHour = 4 * 8;
+            }
+            if ((int)ticket.Priority == 3)
+            {
+                WorkHour = 3 * 8;
+            }
+            if ((int)ticket.Priority == 2)
+            {
+                WorkHour = 2 * 8;
+            } 
+            if ((int)ticket.Priority == 1)
+            {
+                WorkHour =  8;
+            }
+
+             WorkHour=employee.Hours;
+           
+        }
 
     }
 }
