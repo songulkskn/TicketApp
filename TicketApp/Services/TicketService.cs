@@ -58,16 +58,17 @@ namespace TicketApp.Services
             ticket.Status = status;
             _ticketRepository.Update(ticket);
         }
-
         /// <summary>
         /// Emplooye ye iş atama işlemleri yapılır ve validatasyonlar yapılır.
         /// </summary>
         /// <param name="ticket"></param>
         /// <param name="empId"></param>
-        public void AssingnedTask(Ticket ticket ,string empId)
+        /// <param name="employee"></param>
+        public void AssingnedTask(Ticket ticket ,string empId, Employee emp)
         {
 
             var employee = _employeeRepository.Find(empId);
+
             if ((int)ticket.Difficulty == 0)
             {
                 throw new Exception("the degree of difficulty cannot be passed blank");
@@ -77,20 +78,41 @@ namespace TicketApp.Services
                 throw new Exception("the degree of priority cannot be passed blank");
             }
 
-            int count = 0;
+            int countdiff = 0;
+            int countprio = 0;
             foreach( var item in employee.Ticket)
             {
                 if(item.Difficulty == LevelofDifficulty.Hard)
                 {
-                    count++;
-                    if(count > 3)
+                    countdiff++;
+
+                    if(countdiff > 3)
                     {
                         throw new Exception("no more than 3 tasks can be assigned");
                     }
+                    if (item.OpenDate > DateTime.Now.Date)
+                    {
+                          throw new Exception("There are 3 difficult tasks in a month, you cannot assign them");
+                    }
                 }
-                if (employee.Hours > 160)
+
+
+
+                if (item.Priority == LevelofPriority.Forth || item.Priority == LevelofPriority.Fifth)
                 {
-                    throw new Exception("no more than 160 hours of task can be assigned");
+                
+                countprio++;
+                  if (countprio==5)
+                    {
+                        throw new Exception("You cannot assign it, it has 4-5 degree of importance");
+                    }
+                
+                
+                }
+
+                if (employee.Hours > 160 || item.OpenDate > DateTime.Now.Date)
+                {
+                    throw new Exception("You cannot assign working hours are full");
                 }
 
                 employee.Ticket.Add(ticket);
@@ -115,8 +137,40 @@ namespace TicketApp.Services
             _ticketRepository.Update(ticket);
         }
 
+         public void SetHours(Employee employee, Ticket ticket) 
+        { 
 
+            int hour;
+
+            if ((int)ticket.Priority ==5 )
+            {
+                hour = 8 * 5;
+            }
+
+            if ((int)ticket.Priority == 4)
+            {
+                hour = 8 * 4;
+            }
+            if ((int)ticket.Priority == 3)
+            {
+                hour = 8 * 3;
+            }
+            if ((int)ticket.Priority == 2)
+            {
+                hour = 8 * 2;
+            }
+            if ((int)ticket.Priority == 1)
+            {
+                hour = 8 * 1;
+            }
+
+            hour = employee.Hours;
+
+            _employeeRepository.Update(employee);
+
+
+        }
       
-
+        
     }
 }

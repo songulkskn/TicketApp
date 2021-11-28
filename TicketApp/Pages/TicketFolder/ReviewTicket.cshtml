@@ -1,0 +1,41 @@
+﻿@page
+@model TicketApp.Pages.TicketFolder.ReviewTicketModel
+@{
+}
+<form method="post">
+
+
+    <table border="4" width="100%">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Description</th>
+                <th>Assignee</th>
+                <th>Reiview Date</th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+            @for (int i = 0; i < Model.TicketInputs.Count; i++)
+            {
+                <tr>
+                    <td> @Model.TicketInputs[i].Subject</td>
+                    <td> @Model.TicketInputs[i].Description</td>
+                    <td> @Model.TicketInputs[i].EmployeeId</td>
+                    <td> @Model.TicketInputs[i].ReviweDate</td>
+
+                    <td>
+                        <button type="submit" asp-route-id="@Model.TicketInputs[i].Id" asp-page-handler="CloseTicket"> Close ticket </button>
+                    </td>
+
+                </tr>
+            }
+
+
+
+
+        </tbody>
+    </table>
+
+</form>

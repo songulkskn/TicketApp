@@ -21,8 +21,29 @@ namespace TicketApp.Pages.TicketFolder
 
         [BindProperty]
         public List<Ticket> TicketInput { get; set; } = new List<Ticket>();
+
         public List<SelectListItem> SelectListItems = new List<SelectListItem>();
-        public List<Ticket> Tickets { get; set; } = new List<Ticket>();
+
+        [BindProperty]
+        public List<Ticket> Tickets { get; set; }
+
+        public Ticket Ticket { get; set; }
+
+        [BindProperty]
+       public string selectedcustomerid { get; set; }
+        [BindProperty]
+        public Employee EmployeeInput { get; set; }
+        [BindProperty]
+        public string ID { get; set; }
+
+        [BindProperty]
+        public string TicketID { get; set; }
+        [BindProperty]
+        public SelectList selectlist { get; set; }
+
+
+
+
         public WaitAssigmentModel(TicketRepository tRepo, CustomerRepository cRepo, TicketService ticketService, EmployeeRepository eRepo)
         {
             this.tRepo = tRepo;
@@ -35,6 +56,17 @@ namespace TicketApp.Pages.TicketFolder
 
         public void OnGet()
         {
+
+
+            var Employees = eRepo.List();
+
+            SelectListItems = Employees.Select(a =>
+              new SelectListItem
+              {
+                  Value = a.Id,
+                  Text = a.Name
+              }).ToList();  
+
             Tickets = tRepo.List();
             if (Tickets.Count != 0)
             {
@@ -47,14 +79,24 @@ namespace TicketApp.Pages.TicketFolder
                 }
             }
 
-            var Employees = eRepo.List();
+          
+        }
 
-            SelectListItems = Employees.Select(a =>
-              new SelectListItem
-              {
-                  Value = a.Id,
-                  Text = a.Name
-              }).ToList();
+        public void  OnPostSave( string empid, string ticketid)
+        {
+            
+            ID = empid;
+
+            Ticket = tRepo.Find(ticketid);
+            EmployeeInput = eRepo.Find(empid);
+
+            Ticket.Status = StatusType.Assigned;
+
+            Ticket.EmployeeId = empid;
+            tRepo.Update(Ticket);
+            ticketService.AssingnedTask(ticket: Ticket, empId:EmployeeInput.Id, emp:EmployeeInput);
+            ticketService.SetHours(employee: EmployeeInput, ticket: Ticket);
+
         }
     }
     }

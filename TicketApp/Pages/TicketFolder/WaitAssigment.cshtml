@@ -5,36 +5,39 @@
 
 
 
-
-<table border="4" width="80%">
-    <thead>
-        <tr>
-            <th>Konu</th>
-            <th>Açıklama</th>
-            <th>Zorluk Derecesi</th>
-            <th>Öncelik</th>
-            <th>Elaman</th>
-        </tr>
-    </thead>
-    <tbody>
-
-       @for (int i = 0; i < Model.TicketInput.Count; i++)
-       { 
+<form method="post">
+    <table border="4" width="80%">
+        <thead>
             <tr>
-                <td>@Model.TicketInput[i].Subject</td>
-                <td>@Model.TicketInput[i].Description </td>
-                <td>@Model.TicketInput[i].Difficulty</td>
-                <td>@Model.TicketInput[i].Priority</td>
-                <td>
-                    <select asp-for="TicketInput[i].EmployeeId" asp-items="Model.SelectListItems">
-                    </select>
-                </td>
+                <th>Konu</th>
+                <th>Açıklama</th>
+                <th>Zorluk Derecesi</th>
+                <th>Öncelik</th>
+                <th>Elaman</th>
+
+
             </tr>
+        </thead>
+        <tbody>
 
-       }
+            @for (int i = 0; i < Model.TicketInput.Count; i++)
+            {
+                <tr>
+                    <td>@Model.TicketInput[i].Subject</td>
+                    <td>@Model.TicketInput[i].Description </td>
+                    <td>@Model.TicketInput[i].Difficulty</td>
+                    <td>@Model.TicketInput[i].Priority</td>
+                    <td>
+                        <label>Select Customer </label>
+                        @Html.DropDownListFor(x => x.ID, Model.SelectListItems)
+                        <input type="submit" value="Save" asp-page-handler="Save" asp-route-id="@Model.TicketInput[i].Id" />
 
 
+                    </td>
+                </tr>
 
+            }
+        </tbody>
+    </table>
 
-    </tbody>
-</table>
+</form>
