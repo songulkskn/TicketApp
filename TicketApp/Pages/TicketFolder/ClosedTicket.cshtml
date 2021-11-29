@@ -22,14 +22,14 @@
                 <tr>
                     <td> @Model.TicketInputs[i].Subject</td>
                     <td> @Model.TicketInputs[i].Description</td>
-                    <td> @Model.TicketInputs[i].EmployeeId</td>
+                    <td> @Model.EmployeeList[i].Name</td>
                     <td> @Model.TicketInputs[i].CloseDate</td>
                     <td>
-                        <button type="submit" asp-route-id="@Model.TicketInputs[i].Id" asp-page-handler="CloseTicket"> Close Ticket </button>
+                      <button type="submit"  asp-page-handler="CompleteTicket"> Complete Ticket </button>
                     </td>
 
                     <td>
-                        <button type="submit" asp-route-id="@Model.TicketInputs[i].Id" asp-page-handler="ReviewTicket"> Review Ticket </button>
+                        <button type="submit" asp-page-handler="ReviewTicket"> Review Ticket </button>
 
                 </tr>
             }

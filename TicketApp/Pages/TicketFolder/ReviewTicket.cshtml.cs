@@ -19,6 +19,7 @@ namespace TicketApp.Pages.TicketFolder
         private readonly CustomerRepository cRepo;
         private readonly TicketService ticketService;
         private readonly EmployeeRepository eRepo;
+        private readonly NetSmtpMailService mailService;
 
 
 
@@ -29,9 +30,7 @@ namespace TicketApp.Pages.TicketFolder
         [BindProperty]
         public Employee EmployeeInput { get; set; }
 
-        public Customer CustomerInput { get; set; }
-
-        public Customer displayCustomer { get; set; }
+      
 
         public List<SelectListItem> SelectListItems = new List<SelectListItem>();
 
@@ -42,24 +41,30 @@ namespace TicketApp.Pages.TicketFolder
         public List<Ticket> Tickets { get; set; }
 
         [BindProperty]
-        public List<Ticket> TicketInputs { get; set; }
+        public List<Ticket> TicketInputs { get; set; } = new List<Ticket>();
+        [BindProperty]
+        public Ticket [] ticketList { get; set; }
+        public Manager Manager { get; set; } = new Manager();
 
         [BindProperty]
         public string ID { get; set; }
+        [BindProperty]
+        public List<Employee> EmployeeList { get; set; } = new List<Employee>();
 
 
 
-        public ReviewTicketModel(TicketRepository tRepo, CustomerRepository cRepo, TicketService ticketService, EmployeeRepository eRepo)
+        public ReviewTicketModel(TicketRepository tRepo, CustomerRepository cRepo, TicketService ticketService, EmployeeRepository eRepo, NetSmtpMailService mailService)
         {
             this.tRepo = tRepo;
             this.cRepo = cRepo;
             this.ticketService = ticketService;
             this.eRepo = eRepo;
+            this.mailService = mailService;
         }
 
         public void OnGet()
         {
-
+            var employeerep =   eRepo.List();
             Tickets = tRepo.List();
 
             if (Tickets.Count != 0)
@@ -70,7 +75,15 @@ namespace TicketApp.Pages.TicketFolder
                     {
                         TicketInputs.Add(item);
                     }
+                    foreach (var item2 in employeerep)
+                    {
+                        if (item.EmployeeId == item2.Id)
+                        {
+                          EmployeeList.Add(item2);
+                        }
+                    }
                 }
+               // ticketList = TicketInputs.ToArray();
             }
         }
 
@@ -81,13 +94,15 @@ namespace TicketApp.Pages.TicketFolder
 
             Ticket = tRepo.Find(id);
 
-          
+            Ticket.CompleteDate = DateTime.Now;
 
             var employeemail = eRepo.Find(Ticket.EmployeeId);
 
+            mailService.SendEmail(from: EmployeeInput.EMail, to: Manager.EMail, message: $"{ Ticket.Id} nolu Task Kapatýlmýþtýr.", subject: Ticket.Subject);
 
 
-           // _semdingmail.SendEmail(from: employeemail.Mail, to: "elif@gmail.com", message: $"{TicketInput.Id} nolu Task Closed Task olarak atanmýþtýr", subject: TicketInput.Subject);
+
+
         }
     }
 }

@@ -41,6 +41,9 @@ namespace TicketApp.Pages.TicketFolder
 
         [BindProperty]
         public string ID { get; set; }
+        [BindProperty]
+        public List<Employee> EmployeeList { get; set; } = new List<Employee>();
+        public Manager Manager { get; set; } = new Manager();
 
 
         public ClosedTicketModel(TicketRepository tRepo, CustomerRepository cRepo, TicketService ticketService, EmployeeRepository eRepo, NetSmtpMailService mailService)
@@ -53,7 +56,7 @@ namespace TicketApp.Pages.TicketFolder
         }
         public void OnGet()
         {
-
+            var employeerep = eRepo.List();
             Tickets = tRepo.List();
 
             if (Tickets.Count != 0)
@@ -63,6 +66,13 @@ namespace TicketApp.Pages.TicketFolder
                     if (item.Status == StatusType.Closed)
                     {
                         TicketInputs.Add(item);
+                    }
+                    foreach (var item2 in employeerep)
+                    {
+                        if (item.EmployeeId == item2.Id)
+                        {
+                            EmployeeList.Add(item2);
+                        }
                     }
                 }
             }
@@ -75,15 +85,16 @@ namespace TicketApp.Pages.TicketFolder
             ID = id;
 
             Ticket = tRepo.Find(id);
-            //Ticket.CustomerID mi?????????????????
+
             EmployeeInput = eRepo.Find(Ticket.EmployeeId);
+
+            Ticket.CloseDate = DateTime.Now;
+
             Ticket.Status = StatusType.Review;
-            Ticket.ReviweDate = DateTime.Now.Date;
 
             tRepo.Update(Ticket);
 
-
-             mailService.SendEmail(from: "songulkeskin99@gmail.com", to: EmployeeInput.EMail, message: $"{ Ticket.Id} nolu Task Completed Task olarak atanmýþtýr", subject: Ticket.Subject);
+            mailService.SendEmail(from: "songulkeskin99@gmail.com", to: EmployeeInput.EMail, message: $"{ Ticket.Id} nolu Task Completed Task olarak atanmýþtýr", subject: Ticket.Subject);
 
 
         }
@@ -105,9 +116,7 @@ namespace TicketApp.Pages.TicketFolder
 
             var customer = cRepo.Find(Ticket.CustomerId);
 
-
-          //  _semdingmail.SendEmail(from: "songulkeskin99@gmail.com", to: customer.Mail. , message: $"{ TicketInput.Id} nolu Task Completed Task olarak atanmýþtýr", subject: TicketInput.Subject);
-
+            mailService.SendEmail(from: EmployeeInput.EMail, to: Manager.EMail, message: $"{ Ticket.Id} nolu Task Kapatýlmýþtýr.", subject: Ticket.Subject);
 
         }
 

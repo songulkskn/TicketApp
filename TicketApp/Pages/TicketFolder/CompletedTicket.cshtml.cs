@@ -16,6 +16,7 @@ namespace TicketApp.Pages.TicketFolder
         private readonly CustomerRepository cRepo;
         private readonly TicketService ticketService;
         private readonly EmployeeRepository eRepo;
+        private readonly NetSmtpMailService mailService;
 
         [BindProperty]
 
@@ -32,16 +33,18 @@ namespace TicketApp.Pages.TicketFolder
 
         [BindProperty]
         public List<Ticket> TicketInputs { get; set; }
+        public Manager Manager { get; set; } = new Manager();
 
         [BindProperty]
         public string ID { get; set; }
 
-        public CompletedTicketModel(TicketRepository tRepo, CustomerRepository cRepo, TicketService ticketService, EmployeeRepository eRepo)
+        public CompletedTicketModel(TicketRepository tRepo, CustomerRepository cRepo, TicketService ticketService, EmployeeRepository eRepo, NetSmtpMailService mailService)
         {
             this.tRepo = tRepo;
             this.cRepo = cRepo;
             this.ticketService = ticketService;
             this.eRepo = eRepo;
+            this.mailService = mailService;
         }
 
         public void OnGet()
@@ -59,6 +62,8 @@ namespace TicketApp.Pages.TicketFolder
                     }
                 }
             }
+            mailService.SendEmail(from: Manager.EMail, to: EmployeeInput.EMail, message: $"{ Ticket.Id} nolu Task Kapatýlmýþtýr.", subject: Ticket.Subject);
+
 
         }
     }

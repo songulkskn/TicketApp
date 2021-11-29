@@ -20,10 +20,10 @@
             @for (int i = 0; i < Model.TicketInputs.Count; i++)
             {
                 <tr>
-                    <td> @Model.TicketInputs[i].Subject</td>
-                    <td> @Model.TicketInputs[i].Description</td>
-                    <td> @Model.TicketInputs[i].EmployeeId</td>
-                    <td> @Model.TicketInputs[i].AssigneDate</td>
+                    <td> TicketInputs[i].Subject</td>
+                    <td> TicketInputs[i].Description</td>
+                    <td> EmployeeList[i].Name</td>
+                    <td> TicketInputs[i].AssigneDate</td>
 
                     <td>
                         <button type="submit" asp-route-id="@Model.TicketInputs[i].Id" asp-page-handler="CloseTicket"> Close ticket </button>

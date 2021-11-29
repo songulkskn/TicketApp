@@ -19,7 +19,7 @@ namespace TicketApp.Pages.TicketFolder
         private readonly CustomerRepository cRepo;
         private readonly TicketService ticketService;
         private readonly EmployeeRepository eRepo; 
-        private readonly NetSmtpMailService mailService;
+     
 
 
 
@@ -42,19 +42,23 @@ namespace TicketApp.Pages.TicketFolder
         [BindProperty]
         public string ID { get; set; }
 
-        public AssignedTicketModel(TicketRepository tRepo, CustomerRepository cRepo, TicketService ticketService, EmployeeRepository eRepo, NetSmtpMailService mailService)
+        [BindProperty]
+        public List<Employee> EmployeeList { get; set; } = new List<Employee>();
+
+        public AssignedTicketModel(TicketRepository tRepo, CustomerRepository cRepo, TicketService ticketService, EmployeeRepository eRepo)
         {
             this.tRepo = tRepo;
             this.cRepo = cRepo;
             this.ticketService = ticketService;
             this.eRepo = eRepo;
-            this.mailService = mailService;
         }
 
         public void OnGet()
         {
-
+            
             Tickets = tRepo.List();
+
+            var employeerep = eRepo.List();
 
             if (Tickets.Count != 0)
             {
@@ -63,6 +67,13 @@ namespace TicketApp.Pages.TicketFolder
                     if (item.Status == StatusType.Assigned)
                     {
                         TicketInputs.Add(item);
+                    }
+                    foreach(var item2 in employeerep)
+                    {
+                        if (item.EmployeeId == item2.Id)
+                        {
+                            EmployeeList.Add(item2);
+                        }
                     }
                 }
             }

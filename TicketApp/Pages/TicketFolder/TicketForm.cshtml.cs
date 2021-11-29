@@ -16,20 +16,25 @@ namespace TicketApp.Pages.TicketFolder
         private readonly CustomerRepository cRepo;
         private readonly TicketRepository tRepo;
         private readonly TicketService ticketservice;
-     
+        private readonly NetSmtpMailService mailService;
 
 
-        public TicketFormModel(CustomerRepository cRepo, TicketRepository tRepo, TicketService ticketservice)
+
+        public TicketFormModel(CustomerRepository cRepo, TicketRepository tRepo, TicketService ticketservice, NetSmtpMailService mailService)
         {
             this.cRepo = cRepo;
             this.tRepo = tRepo;
             this.ticketservice = ticketservice;
-            
+            this.mailService = mailService;
+
+
         }
         [BindProperty]
         public Ticket TicketInput { get; set; }
 
-        public List<SelectListItem> SelectListItems = new List<SelectListItem>();
+        public List<SelectListItem> SelectListItems { get; set; } = new List<SelectListItem>();
+        public Manager Manager { get; set } = new Manager();
+
         public void OnGet()
         {
             var Customers = cRepo.List();
@@ -51,7 +56,8 @@ namespace TicketApp.Pages.TicketFolder
                 ticketservice.CreateTicket(TicketInput);
 
                 tRepo.Save();
-               
+                mailService.SendEmail(from: "songulkeskin99@gmail.com", to: Manager.EMail, message: $"{ TicketInput.Id} nolu Task Oluþturulmuþtur.", subject: TicketInput.Subject);
+
 
             }
 

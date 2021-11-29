@@ -22,15 +22,15 @@ namespace TicketApp.Pages.TicketFolder
         [BindProperty]
         public List<Ticket> TicketInput { get; set; } = new List<Ticket>();
 
-        public List<SelectListItem> SelectListItems = new List<SelectListItem>();
+
+        public List<SelectListItem> SelectListItems { get; set; } = new List<SelectListItem>();
 
         [BindProperty]
         public List<Ticket> Tickets { get; set; }
 
-        public Ticket Ticket { get; set; }
+        public Ticket Ticket { get; set; } = new Ticket();
 
-        [BindProperty]
-       public string selectedcustomerid { get; set; }
+
         [BindProperty]
         public Employee EmployeeInput { get; set; }
         [BindProperty]
@@ -38,8 +38,7 @@ namespace TicketApp.Pages.TicketFolder
 
         [BindProperty]
         public string TicketID { get; set; }
-        [BindProperty]
-        public SelectList selectlist { get; set; }
+
 
 
 
@@ -50,6 +49,7 @@ namespace TicketApp.Pages.TicketFolder
             this.cRepo = cRepo;
             this.ticketService = ticketService;
             this.eRepo = eRepo;
+
 
 
         }
@@ -65,7 +65,7 @@ namespace TicketApp.Pages.TicketFolder
               {
                   Value = a.Id,
                   Text = a.Name
-              }).ToList();  
+              }).ToList();
 
             Tickets = tRepo.List();
             if (Tickets.Count != 0)
@@ -79,36 +79,29 @@ namespace TicketApp.Pages.TicketFolder
                 }
             }
 
-          
+
         }
 
-        public void  OnPostSave( string empid, string ticketid)
+        public void OnPostSave(string ID, string ticketid)
         {
-            
-            ID = empid;
+
+            //emp id
+            ID = ID;
+
+            TicketID = ticketid;
 
             Ticket = tRepo.Find(ticketid);
-            EmployeeInput = eRepo.Find(empid);
-
+            EmployeeInput = eRepo.Find(ID);
             Ticket.Status = StatusType.Assigned;
-
-            Ticket.EmployeeId = empid;
+            Ticket.EmployeeId = ID;
+            Ticket.AssigneDate = DateTime.Now.Date;
             tRepo.Update(Ticket);
-            ticketService.AssingnedTask(ticket: Ticket, empId:EmployeeInput.Id, emp:EmployeeInput);
+            ticketService.AssingnedTask(ticket: Ticket, empId: EmployeeInput.Id, emp: EmployeeInput);
             ticketService.SetHours(employee: EmployeeInput, ticket: Ticket);
 
-        }
-
-        public void OnPostSave()
-        {
-            // date assigned alýnacak 
-            // status güncellenecek
-            //set hour yapýlacak empp servicede 
-            //emp iþ atanacaka
-            // ticket güncellenecek
-
 
         }
+
     }
-    }
+}
 
