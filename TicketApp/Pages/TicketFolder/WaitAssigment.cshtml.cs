@@ -98,6 +98,17 @@ namespace TicketApp.Pages.TicketFolder
             ticketService.SetHours(employee: EmployeeInput, ticket: Ticket);
 
         }
+
+        public void OnPostSave()
+        {
+            // date assigned alýnacak 
+            // status güncellenecek
+            //set hour yapýlacak empp servicede 
+            //emp iþ atanacaka
+            // ticket güncellenecek
+
+
+        }
     }
     }
 
